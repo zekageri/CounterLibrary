@@ -6,13 +6,25 @@
     Callback function will return the remaining
         milliseconds and seconds in every iteration along with the isExpired flag.
 */
-void Counter::setTimeout(uint32_t _timeout, TimeoutFunc cb) {
+uint32_t Counter::setTimeout(uint32_t _timeout, TimeoutFunc cb) {
     TimeoutStruct timeout;
     timeout.cb = cb;
     timeout.startTime = millis();
     timeout.timeout = _timeout;
     timeout.isExpired = false;
+    timeout.id = esp_random();
     timeouts.push_back(timeout);
+    return timeout.id;
+}
+
+
+void Counter::clearTimeout(uint32_t id) {
+    for (int i = 0; i < timeouts.size(); i++) {
+        if (timeouts[i].id == id) {
+            timeouts.erase(timeouts.begin() + i);
+            return;
+        }
+    }
 }
 
 void Counter::handleTimeouts() {
