@@ -120,3 +120,7 @@ void loop() {
   counter.handle();
 }
 ```
+
+*TODO*
+- Add support for deleting a callback function.
+- Add support for terminating / stopping an interval or a timeout.
