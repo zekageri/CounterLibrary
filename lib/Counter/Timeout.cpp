@@ -17,14 +17,17 @@ uint32_t Counter::setTimeout(uint32_t _timeout, TimeoutFunc cb) {
     return timeout.id;
 }
 
-
-void Counter::clearTimeout(uint32_t id) {
+/*
+    Returns true if the callback was erased, false if not found.
+*/
+boolean Counter::clearTimeout(uint32_t id) {
     for (int i = 0; i < timeouts.size(); i++) {
         if (timeouts[i].id == id) {
             timeouts.erase(timeouts.begin() + i);
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 void Counter::handleTimeouts() {

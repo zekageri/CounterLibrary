@@ -15,13 +15,17 @@ uint32_t Counter::setInterval(uint64_t _interval, IntervalFunc cb, boolean isMic
     return interval.id;
 }
 
-void Counter::clearInterval(uint32_t id) {
+/*
+    Returns true if the callback was erased, false if not found.
+*/
+boolean Counter::clearInterval(uint32_t id) {
     for (int i = 0; i < intervals.size(); i++) {
         if (intervals[i].id == id) {
             intervals.erase(intervals.begin() + i);
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 void Counter::handleIntervals() {

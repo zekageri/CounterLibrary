@@ -43,10 +43,10 @@ struct TimeoutStruct {
 class Counter {
    public:
     uint32_t setInterval(uint64_t _interval, IntervalFunc cb, boolean isMicroseconds = false);
-    void clearInterval(uint32_t id);
+    boolean clearInterval(uint32_t id);
 
     uint32_t setTimeout(uint32_t _timeout, TimeoutFunc cb);
-    void clearTimeout(uint32_t id);
+    boolean clearTimeout(uint32_t id);
     void handle();
 
    private:
