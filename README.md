@@ -121,6 +121,33 @@ void loop() {
 }
 ```
 
-*TODO*
-- Add support for deleting a callback function.
-- Add support for terminating / stopping an interval or a timeout.
+
+**clearTimeout and clearInterval**
+
+```cpp
+#include <Arduino.h> // Include Arduino.h if you are using platformIO.
+#include <Counter.h>
+
+uint32_t intervalID;
+void setup() {
+  Serial.begin(115200);
+  
+  // This lambda will excute every second.
+  intervalID = counter.setInterval(1000, [](){
+    Serial.printf("Szia %lu\n",millis());
+  });
+  
+  // When this timer expires, it will clear the above interval.
+  counter.setTimeout(2000, [](uint32_t deltaMillis, uint32_t deltaSec, boolean expired) {
+    if ( expired ) {
+      Serial.println("Timeout!");
+      counter.clearInterval(intervalID);
+    }
+  });
+  
+}
+
+void loop() {
+  counter.handle();
+}
+```
