@@ -1,5 +1,9 @@
 #include "Counter.h"
 
+/*
+    Adds a new interval function to the vector.
+    If isMicroseconds is not specified, the system will count with milliseconds.
+*/
 void Counter::setInterval(uint64_t _interval, IntervalFunc cb, boolean isMicroseconds) {
     IntervalStruct interval;
     interval.cb = cb;
