@@ -213,3 +213,6 @@ void loop() {
     counter.handle(); // An infinite loop must call the handle method.
 }
 ```
+
+# To do
+- Option for full asyncron operation so the user does not have to call the handle method in the loop.
