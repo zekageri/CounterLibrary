@@ -155,3 +155,59 @@ void loop() {
   counter.handle();
 }
 ```
+
+**Full blown example**
+
+#include <Arduino.h>
+#include <Counter.h>
+
+// Save one interval ID so it can be cleared.
+uint32_t intervalID;
+// Save the last seconds so the serial monitor and your eyes can rest.
+uint32_t lastSec, lastAgainSec;
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Register an interval which will run every 1000 milliseconds.
+    intervalID = counter.setInterval(1000, []() {
+        Serial.printf("Interval %lu\n", millis());
+    });
+    
+    // Register a timeout which will be expired after 1000 milliseconds.
+    // It will periodically return the remaining milliseconds and seconds before the expired flag is set.
+    // If the timeout is expired, we set the previous interval delay to 500 millisec for demonstration
+    counter.setTimeout(1000, [](uint32_t remainingMillis, uint32_t remainingSec, boolean expired) {
+        if (expired) {
+            boolean success = counter.setIntervalDelay(intervalID, 500);
+            Serial.printf("Interval delay %s\n", success ? "modified" : "failed to modify.");
+        }
+        if (lastAgainSec != remainingSec) {
+            lastAgainSec = remainingSec;
+            Serial.printf("%d seconds before setting the interval.\n", lastAgainSec);
+        }
+    });
+    
+    // Set an other timeout for 20 seconds. If it is expired, we clear the previous interval for demonstration.
+    counter.setTimeout(20000, [](uint32_t remainingMillis, uint32_t remainingSec, boolean expired) {
+        if (expired) {
+            if (counter.clearInterval(intervalID)) {
+                Serial.println("Interval successfully deleted");
+            }
+            return;
+        }
+        if (lastSec != remainingSec) {
+            lastSec = remainingSec;
+            Serial.printf("%d seconds before clearing the interval.\n", lastSec);
+        }
+    });
+    
+    // Set an other interval just to be sure that it works with other delay.
+    counter.setInterval(2000, []() {
+        Serial.println("I'm running every 2 secs!");
+    });
+}
+
+void loop() {
+    counter.handle(); // An infinite loop must call the handle method.
+}
