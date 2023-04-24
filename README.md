@@ -158,6 +158,7 @@ void loop() {
 
 **Full blown example**
 
+```cpp
 #include <Arduino.h>
 #include <Counter.h>
 
@@ -211,3 +212,4 @@ void setup() {
 void loop() {
     counter.handle(); // An infinite loop must call the handle method.
 }
+```
