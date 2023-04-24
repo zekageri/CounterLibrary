@@ -15,6 +15,16 @@ uint32_t Counter::setInterval(uint64_t _interval, IntervalFunc cb, boolean isMic
     return interval.id;
 }
 
+boolean Counter::setIntervalDelay(uint32_t id, uint32_t newInterval) {
+  for (int i = 0; i < intervals.size(); i++) {
+    if (intervals[i].id == id) {
+      intervals[i].interval = newInterval;
+      return true;
+    }
+  }
+  return false;
+}
+
 /*
     Returns true if the callback was erased, false if not found.
 */

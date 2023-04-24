@@ -17,6 +17,16 @@ uint32_t Counter::setTimeout(uint32_t _timeout, TimeoutFunc cb) {
     return timeout.id;
 }
 
+boolean Counter::setTimeoutDelay(uint32_t id, uint32_t newTimeout) {
+  for (int i = 0; i < timeouts.size(); i++) {
+    if (timeouts[i].id == id) {
+      timeouts[i].timeout = newTimeout;
+      return true;
+    }
+  }
+  return false;
+}
+
 /*
     Returns true if the callback was erased, false if not found.
 */
