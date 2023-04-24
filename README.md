@@ -1,10 +1,13 @@
 # CounterLibrary
- This is a basic javascript setInterval and a setTimeout implementation.
+ This library is intended to mimic the javascript `setInterval` and `setTimeout` methods.
+ Written for the `Arduino` framework.
 
 
 You need to have a c++17 compiler in order to compile it.
 If you are using platformIO just add these lines to the `platformio.ini` file
 
+If you don't have a gnu++17 compiler you must have to fork and modify this library.
+You must remove the inline class definition and rewrite so it does not use vectors.
 
 ```
 build_flags = 	-std=gnu++17
